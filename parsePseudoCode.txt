@@ -1,0 +1,40 @@
+function addGame($gameDetails){
+	
+}
+
+foreach(row){
+	if(rowNum==0){
+		$date = row->cell[0]->text
+	} elseif(rowNum==1){
+		if(strpos(rowText,'Match 3')!==false) matches = 3
+		elseif(strpos(rowText,'Match 2')!==false) matches = 2
+		else matches = 1
+	}
+	$matchNum = 1;
+	foreach(cell as i => row){
+		if(i==0){
+			if(text){
+				$facility = findFacility($text);			
+			} else {
+				$rowFacility = '';
+			}			
+		} else if(i==1){					
+			if($rowFacility){
+				// Found Facility in first col, 2nd col is time:
+				$time = $text;
+			} else {
+				// First col blank, next val found will be team names:
+				if($text){
+					$teams = findTeams($text);
+					addGame($date, $time, $matchNum, $teams);
+				}
+			}			
+		} else {
+			// For every col after first 2, if there's a value it is team names:
+			if($text){
+				$teams = findTeams($text);
+				addGame($date, $time, $matchNum++, $teams);
+			}
+		}		
+	}
+}
